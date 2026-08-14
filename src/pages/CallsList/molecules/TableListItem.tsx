@@ -86,7 +86,7 @@ function TableListItem({ call }: { call: Call }) {
                         flex
                         min-w-0
                         flex-1
-                        items-center
+                        items-top
                         gap-3
                       "
                 >
@@ -148,7 +148,7 @@ function TableListItem({ call }: { call: Call }) {
                     </div>
 
                     {/* Action */}
-                    <ChevronRight size={18} strokeWidth={2} />
+                    <ChevronRight size={18} strokeWidth={2} className='self-center' />
 
                 </div>
             </div>

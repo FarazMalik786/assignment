@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 
 function CallsList() {
   const setFilteredCalls = useCallsStore((state) => state.setFilteredCalls);
+  const setCallsLoading = useCallsStore((state) => state.setCallsLoading);
   const callsList: Call[] = useCallsStore((state) => state.calls);
   const [searchParams] = useSearchParams();
 
@@ -20,99 +21,106 @@ function CallsList() {
 
 
   function syncFiltersFromSearchParams() {
-    const agentValues = searchParams.getAll(CALL_FILTER_KEYS.AGENT);
-    const outcomeValues = searchParams.getAll(CALL_FILTER_KEYS.OUTCOME);
+    try {
 
-    const minDurationParam = searchParams.get(CALL_FILTER_KEYS.MIN_DURATION);
-    const maxDurationParam = searchParams.get(CALL_FILTER_KEYS.MAX_DURATION);
+      setCallsLoading(true);
+      const agentValues = searchParams.getAll(CALL_FILTER_KEYS.AGENT);
+      const outcomeValues = searchParams.getAll(CALL_FILTER_KEYS.OUTCOME);
 
-    const minDuration = minDurationParam
-      ? Number(minDurationParam)
-      : null;
+      const minDurationParam = searchParams.get(CALL_FILTER_KEYS.MIN_DURATION);
+      const maxDurationParam = searchParams.get(CALL_FILTER_KEYS.MAX_DURATION);
 
-    const maxDuration = maxDurationParam
-      ? Number(maxDurationParam)
-      : null;
+      const minDuration = minDurationParam
+        ? Number(minDurationParam)
+        : null;
 
-    const fromDateParam = searchParams.get(CALL_FILTER_KEYS.FROM_DATE);
-    const toDateParam = searchParams.get(CALL_FILTER_KEYS.TO_DATE);
+      const maxDuration = maxDurationParam
+        ? Number(maxDurationParam)
+        : null;
 
-    const fromDate = fromDateParam
-      ? new Date(fromDateParam).getTime()
-      : null;
+      const fromDateParam = searchParams.get(CALL_FILTER_KEYS.FROM_DATE);
+      const toDateParam = searchParams.get(CALL_FILTER_KEYS.TO_DATE);
 
-    const toDate = toDateParam
-      ? new Date(toDateParam).getTime()
-      : null;
+      const fromDate = fromDateParam
+        ? new Date(fromDateParam).getTime()
+        : null;
 
-    const search = searchParams.get(CALL_FILTER_KEYS?.SEARCH) || "";
+      const toDate = toDateParam
+        ? new Date(toDateParam).getTime()
+        : null;
+
+      const search = searchParams.get(CALL_FILTER_KEYS?.SEARCH) || "";
 
 
 
-    const filteredData = callsList.filter((call) => {
-      // Agent
-      if (
-        agentValues.length > 0 &&
-        !agentValues.includes(String(call.id))
-      ) {
-        return false;
-      }
+      const filteredData = callsList.filter((call) => {
+        // Agent
+        if (
+          agentValues.length > 0 &&
+          !agentValues.includes(String(call.id))
+        ) {
+          return false;
+        }
 
-      // Outcome
-      if (
-        outcomeValues.length > 0 &&
-        !outcomeValues.includes(call.outcome)
-      ) {
-        return false;
-      }
+        // Outcome
+        if (
+          outcomeValues.length > 0 &&
+          !outcomeValues.includes(call.outcome)
+        ) {
+          return false;
+        }
 
-      // Minimum duration
-      if (
-        minDuration !== null &&
-        call.duration < minDuration
-      ) {
-        return false;
-      }
+        // Minimum duration
+        if (
+          minDuration !== null &&
+          call.duration < minDuration
+        ) {
+          return false;
+        }
 
-      // Maximum duration
-      if (
-        maxDuration !== null &&
-        call.duration > maxDuration
-      ) {
-        return false;
-      }
+        // Maximum duration
+        if (
+          maxDuration !== null &&
+          call.duration > maxDuration
+        ) {
+          return false;
+        }
 
-      // From date
-      const timestamp = new Date(call.timestamp).getTime();
+        // From date
+        const timestamp = new Date(call.timestamp).getTime();
 
-      if (
-        fromDate !== null &&
-        timestamp < fromDate
-      ) {
-        return false;
-      }
+        if (
+          fromDate !== null &&
+          timestamp < fromDate
+        ) {
+          return false;
+        }
 
-      // To date
-      if (
-        toDate !== null &&
-        timestamp > toDate
-      ) {
-        return false;
-      }
+        // To date
+        if (
+          toDate !== null &&
+          timestamp > toDate
+        ) {
+          return false;
+        }
 
-      // search
-      if (
-        search &&
-        typeof search === 'string' &&
-        !call?.transcript?.toLowerCase().includes(search.toLowerCase())
-      ) {
-        return false;
-      }
+        // search
+        if (
+          search &&
+          typeof search === 'string' &&
+          !call?.transcript?.toLowerCase().includes(search.toLowerCase())
+        ) {
+          return false;
+        }
 
-      return true;
-    });
+        return true;
+      });
 
-    setFilteredCalls(Array.isArray(filteredData) ? filteredData : []);
+      setFilteredCalls(Array.isArray(filteredData) ? filteredData : []);
+    } catch (error) {
+    }finally{
+      setCallsLoading(false);
+    }
   }
 
   return (
