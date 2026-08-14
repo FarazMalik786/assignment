@@ -1,0 +1,58 @@
+@theme {
+   /* ========================================
+     Brand Colors
+     ======================================== */
+
+   --color-primary: #0a192f;
+   --color-primary-hover: #1d4ed8;
+   --color-primary-light: #eff6ff;
+
+
+   /* ========================================
+     Background Colors
+     ======================================== */
+
+   --color-background: #f1f5f9;
+   --color-background-navy: #0a192f;
+   --color-background-white: #ffffff;
+
+
+
+   /* ========================================
+     Text Colors
+     ======================================== */
+
+   --color-text-primary: #0f172a;
+   --color-text-secondary: #475569;
+   --color-text-muted: #64748b;
+   --color-text-disabled: #94a3b8;
+   --color-text-white: #ffffff;
+   --color-text-error: #ab1313;
+
+
+   /* ========================================
+     Border Colors
+     ======================================== */
+
+   --color-border: #e2e8f0;
+   --color-border-light: #f1f5f9;
+   --color-border-strong: #cbd5e1;
+   --color-border-error: #ab1313;
+
+
+   /* ========================================
+     Status Colors
+     ======================================== */
+
+   --color-success: #16a34a;
+   --color-success-light: #f0fdf4;
+
+   --color-warning: #d97706;
+   --color-warning-light: #fffbeb;
+
+   --color-danger: #dc2626;
+   --color-danger-light: #fef2f2;
+
+   --color-info: #0284c7;
+   --color-info-light: #f0f9ff;
+}
